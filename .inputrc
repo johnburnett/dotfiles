@@ -1,0 +1,10 @@
+set completion-ignore-case on
+set mark-directories on
+set mark-symlinked-directories on
+
+# Make a single TAB show completions instead of needing two TABs
+set show-all-if-ambiguous on
+
+# No bell, visual or audio, for anything in the terminal
+set bell-style none
+set visible-stats on

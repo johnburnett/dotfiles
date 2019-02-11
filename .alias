@@ -1,0 +1,17 @@
+# ~/.alias
+
+alias ls="ls --color=auto --group-directories-first"
+alias la="ls --color=auto --group-directories-first -AlF"
+alias f="nemo ."
+alias st="sublime_text"
+
+alias upa='updateBfdSvnRoot && updateBlgitRepos && updateUserGitRepos'
+alias blup='updateBlPipelineCaches'
+
+alias dif=araxis_merge
+alias sls="bl seqls"
+alias blb="bl -p=build"
+alias blgit="blb blgit"
+alias bli="blb bli"
+alias pgit="blb pgit"
+alias scons="blb scons -j8"

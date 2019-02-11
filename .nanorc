@@ -1,0 +1,78 @@
+set autoindent
+unset backup
+set boldtext
+unset casesensitive
+set const
+unset nonewlines
+set nowrap
+set smarthome
+set smooth
+set tabsize 4
+set tabstospaces
+
+# Sam's supa-betta-python syntax highlighting
+syntax "python" "\.py$"
+color brightcyan "def [a-zA-Z_0-9]+"
+color brightred "\<([0-9]+)\>"
+color red "\<([0-9]+\.[0-9]+)\>"
+# Operators and junk
+color brightmagenta "\(|\)|:|\]|\[|\{|\}|\-|\+|\=|\/|\*|<|>|\&"
+# Syntax
+color brightwhite "\<(and|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|global|if|in|is|lambda|map|not|or|pass|print|raise|return|try|while)\>"
+color red "\<(exit|len)\>"
+color brightgreen "\<(self|import|True|False|as|from|None)\>"
+# # comments
+color green "#.*$" 
+# Various quotes
+color cyan ""[^"]*"|qq\|.*\|"
+color cyan "'[^']*'"
+# % substitutions
+color brightmagenta "\%[a-zA-Z]+"
+# """ comments, which are still buggy
+color green "\"\"\""
+
+syntax "c-file" "\.(c|h)$"
+color red "\<[A-Z_]{2,}\>"
+color green "\<(float|double|char|int|short|long|enum|void|static|const|struct|union|typedef|extern|signed|unsigned|inline)\>"
+color brightyellow "\<(for|if|while|do|else|case|switch|goto|continue|break|return)\>"
+color brightcyan "^ *# *(define|undef|include|ifn?def|endif|elif|else|if)"
+color brightmagenta "'([^\]|(\\['abfnrtv\\]))'" "'\\(([0-7][0-7]?)|([0-3][0-7][0-7]))'" "'\\x[0-9A-Fa-f][0-9A-Fa-f]?'"
+color brightyellow "<[^= ]*>" ""(\\.|[^\"])*""
+color brightyellow start=""(\\.|[^\"])*\\ *$" end="^(\\.|[^\"])*""
+color brightblue "//.*"
+color brightblue start="/\*" end="\*/"
+
+syntax "HTML" "\.html$"
+color blue start="<" end=">"
+color red "&[^; ]*;"
+
+syntax "patch" "\.(patch|diff)$"
+color brightgreen "^\+.*"
+color green "^\+\+\+.*"
+color brightblue "^ .*"
+color brightred "^-.*"
+color red "^---.*"
+color brightyellow "^@@.*"
+color magenta "^diff.*"
+
+syntax "bash" "\.sh$" 
+color brightmagenta "\(|\)|:|\]|\[|\{|\}|\-|\+|\=|\*|<|>|\&"
+color brightyellow "\(" "\)" "\{" "\}" 
+# These are copied from python
+# TODO: Make them use actual bash commands :-P
+color brightwhite "\<(and|break|def|del|elif|else|except|exec|finally|for|global|if|in|is|lambda|map|not|or|pass|print|raise|return|try|while)\>"
+color red "\<(exit|len)\>"
+color brightgreen "\<(self|import|True|False|as|from|None)\>"
+color red "\<[A-Z_]{2,}\>" 
+color red "[\$\*\'\`\|\=]" 
+color brightblue "\[.*\]" 
+color green "\<-e\>" "\<-d\>" "\<-f\>" "\<-r\>" "\<-g\>" "\<-u\>" "\<-u\>" "\<-w\>" "\<-x\>" "\<-L\>" 
+color green "\<-eq\>" "\<-ne\>" "\<-gt\>" "\<-lt\>" "\<-ge\>" "\<-le\>" "\<-s\>" "\<-n\>" "\<-z\>" 
+color brightwhite "\.*"
+color cyan ""[^"]*"|qq\|.*\|"
+color cyan "'[^']*'"
+color brightred "`[^`]*`|qq\|.*\|"
+color brightred "`[^`]*`"
+color brightred "\<([0-9]+)\>"
+color red "\<([0-9]+\.[0-9]+)\>"
+color green "#.*" 
