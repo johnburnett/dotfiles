@@ -76,7 +76,10 @@ function st { _profile_spawn "Sublime Text 3\sublime_text.exe" $args }
 function which($name) { Get-Command $name | Select-Object -ExpandProperty Definition }
 _profile_stamp "functions"
 
-. (join-path -path $PSScriptRoot -childpath "..\internal\profile.ps1")
+$_profile_internal_path = join-path -path $PSScriptRoot -childpath "..\internal\profile.ps1"
+if (Test-Path $_profile_internal_path -PathType Leaf) {
+    . $_profile_internal_path
+}
 _profile_stamp "internal profile"
 
 _profile_debug_print("{0} took {1:f3}s" -f $PSCommandPath, $_profile_sw.elapsed.totalseconds)

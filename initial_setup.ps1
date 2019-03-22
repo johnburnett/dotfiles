@@ -11,4 +11,7 @@ function set_user_var($name, $value) {
 
 set_user_var "PYTHONDONTWRITEBYTECODE" "1"
 
-. (join-path -path $PSScriptRoot -childpath "..\internal\initial_setup.ps1")
+$internal_setup_path = join-path -path $PSScriptRoot -childpath "..\internal\initial_setup.ps1"
+if (Test-Path $internal_setup_path -PathType Leaf) {
+    . $internal_setup_path
+}
