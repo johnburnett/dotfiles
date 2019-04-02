@@ -72,6 +72,7 @@ function devenv {
 }
 function dif { _profile_spawn "Araxis\Araxis Merge\Merge.exe" $args }
 function f { start-process . }
+function rmf { Remove-Item -Recurse -Force $args }
 function st { _profile_spawn "Sublime Text 3\sublime_text.exe" $args }
 function which($name) { Get-Command $name | Select-Object -ExpandProperty Definition }
 _profile_stamp "functions"
