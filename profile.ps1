@@ -55,6 +55,14 @@ function _profile_spawn($progchildpath, $arglist) {
     start-process @pargs
 }
 
+################################################################################
+# Aliases
+
+rm alias:ls
+
+################################################################################
+# Functions
+
 function blb { bl -p=build $args }
 function blgit { bl -p=build blgit $args }
 function devenv {
@@ -72,10 +80,14 @@ function devenv {
 }
 function dif { _profile_spawn "Araxis\Araxis Merge\Merge.exe" $args }
 function f { start-process . }
-function rmf { Remove-Item -Recurse -Force $args }
+function ls { Get-ChildItem @args | Sort-Object -Property name }
+function la { Get-ChildItem -Force @args | Sort-Object -Property name }
+function rmf { Remove-Item -Recurse -Force @args }
 function st { _profile_spawn "Sublime Text 3\sublime_text.exe" $args }
 function which($name) { Get-Command $name | Select-Object -ExpandProperty Definition }
 _profile_stamp "functions"
+
+################################################################################
 
 $_profile_internal_path = join-path -path $PSScriptRoot -childpath "..\internal\profile.ps1"
 if (Test-Path $_profile_internal_path -PathType Leaf) {
