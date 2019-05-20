@@ -67,8 +67,8 @@ function blb { bl -p=build $args }
 function blgit { bl -p=build blgit $args }
 function devenv {
     $sw = [Diagnostics.Stopwatch]::StartNew()
-    pushd (join-path -path ${env:ProgramFiles(x86)} -childpath "Microsoft Visual Studio\2017\Professional\Common7\Tools")
-    cmd /c "VsDevCmd.bat & set" |
+    pushd (join-path -path ${env:ProgramFiles(x86)} -childpath "Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build")
+    cmd /c "vcvarsall.bat x64 & set" |
     foreach {
       if ($_ -match "=") {
         $v = $_.split("="); set-item -force -path "ENV:\$($v[0])"  -value "$($v[1])"
