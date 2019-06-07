@@ -26,13 +26,15 @@ function _profile_stamp($label) {
 # gets bundled into the first legitimate _profile_stamp call below.  No idea.
 _profile_stamp ""; _profile_stamp ""
 
-set-psreadlineoption -HistoryNoDuplicates:$true
-set-psreadlineoption -HistorySearchCursorMovesToEnd:$true
-set-psreadlineoption -ExtraPromptLineCount:1
 set-psreadlineoption -AddToHistoryHandler {
     Param([string]$line)
-    return ($line -notmatch "^ls$|^dir$|^exit$|^f$")
+    return ($line -notmatch "^ls$|^dir$|^exit$|^f$|^cd \.\.")
 }
+set-psreadlineoption -BellStyle None
+set-psreadlineoption -ExtraPromptLineCount:1
+set-psreadlineoption -HistoryNoDuplicates:$true
+set-psreadlineoption -HistorySearchCursorMovesToEnd:$true
+set-psreadlineoption -MaximumHistoryCount 10000
 _profile_stamp "psreadlineoption"
 
 function Prompt {
