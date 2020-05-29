@@ -1,10 +1,6 @@
 # ~/.bashrc
 # Personal aliases and functions
 
-# Personal environment variables and startup programs should go in ~/.bash_profile.
-# System wide environment variables and startup programs are in /etc/profile.
-# System wide aliases and functions are in /etc/bashrc.
-
 FILE=/etc/bashrc && test -f $FILE && . $FILE
 FILE=~/.alias && test -f $FILE && . $FILE
 
@@ -57,7 +53,6 @@ function backSlash() { echo $1 | tr "/" '\\'; }
 export PYTHONSTARTUP=$THIS_DIR/pythonrc.py
 export PYTHONDONTWRITEBYTECODE=1
 
-export GREP_OPTIONS='--color=auto'
 export GREP_COLOR='1;32'
 
 export EDITOR=nano
@@ -258,4 +253,4 @@ setAlias() {
 setAlias
 unset setAlias
 
-source $THIS_DIR/../internal/.bashrc
+# source $THIS_DIR/../internal/.bashrc

@@ -1,0 +1,6 @@
+[include]
+    path = ~/config/.gitconfig_global
+[include]
+    path = ~/config/.gitconfig_personal
+[includeIf "gitdir/i:D:/bonfire/"]
+    path = ~/config/.gitconfig_bonfire

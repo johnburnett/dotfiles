@@ -5,6 +5,8 @@ alias la="ls --color=auto --group-directories-first -AlF"
 alias f="nemo ."
 alias st="sublime_text"
 
+alias grep="grep --color=auto"
+
 alias upa='updateBfdSvnRoot && updateBlgitRepos && updateUserGitRepos'
 alias blup='updateBlPipelineCaches'
 
