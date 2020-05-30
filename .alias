@@ -1,19 +1,23 @@
 # ~/.alias
 
-alias ls="ls --color=auto --group-directories-first"
-alias la="ls --color=auto --group-directories-first -AlF"
-alias f="nemo ."
 alias st="sublime_text"
 
+alias ls="ls --color=auto --group-directories-first"
+alias la="ls --color=auto --group-directories-first -AlF"
 alias grep="grep --color=auto"
 
-alias upa='updateBfdSvnRoot && updateBlgitRepos && updateUserGitRepos'
-alias blup='updateBlPipelineCaches'
+case $LINUX_FLAVOR in
+    wsl)
+        alias st="/mnt/c/Program\ Files/Sublime\ Text\ 3/sublime_text.exe"
+        alias dif="/mnt/c/Program\ Files/Araxis/Araxis\ Merge/Merge.exe"
+        ;;
 
-alias dif=araxis_merge
-alias sls="bl seqls"
-alias blb="bl -p=build"
-alias blgit="blb blgit"
-alias bli="blb bli"
-alias pgit="blb pgit"
-alias scons="blb scons -j8"
+    linux)
+        alias f="nemo ."
+        ;;
+
+    msysgit)
+        alias st="/c/Program\ Files/Sublime\ Text\ 3/sublime_text.exe"
+        alias dif="/c/Program\ Files/Araxis/Araxis\ Merge/Merge.exe"
+        ;;
+esac

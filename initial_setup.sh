@@ -10,18 +10,18 @@ THIS_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 pushd $THIS_DIR &> /dev/null
 
 if [[ -n ${WSL_DISTRO_NAME} ]]; then
-    dist=wsl
+    LINUX_FLAVOR=wsl
 elif [[ -n ${XDG_DATA_DIRS+x} ]]; then
-    dist=linux
+    LINUX_FLAVOR=linux
 elif [[ -n ${WINDIR} ]]; then
-    dist=msysgit
+    LINUX_FLAVOR=msysgit
 else
     echo "Unsupported distro"
     exit 1
 fi
 
 # Setup shims
-case $dist in
+case $LINUX_FLAVOR in
     wsl)
         lnconfig() {
             # target should be an absolute path, as we don't have config dir
@@ -61,10 +61,10 @@ lnconfig .inputrc
 lnconfig .nanorc
 lnconfig .gitconfig
 
-platform_initial_setup=initial_setup_$dist.sh
-if [[ -f $platform_initial_setup ]]; then
-    echo Running $platform_initial_setup
-    source $platform_initial_setup
+flavor_initial_setup=initial_setup_$LINUX_FLAVOR.sh
+if [[ -f $flavor_initial_setup ]]; then
+    echo Running $flavor_initial_setup
+    source $flavor_initial_setup
 fi
 
 # source $THIS_DIR/../internal/.bashrc

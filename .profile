@@ -2,6 +2,17 @@
 # Personal environment variables and startup programs
 # Personal aliases and functions should go in ~/.bashrc.
 
+if [[ -n ${WSL_DISTRO_NAME} ]]; then
+    LINUX_FLAVOR=wsl
+elif [[ -n ${XDG_DATA_DIRS+x} ]]; then
+    LINUX_FLAVOR=linux
+elif [[ -n ${WINDIR} ]]; then
+    LINUX_FLAVOR=msysgit
+else
+    echo "Unsupported distro"
+    exit 1
+fi
+
 # Source personal aliases and functions
 FILE=~/.bashrc && test -f $FILE && . $FILE
 
@@ -32,4 +43,7 @@ start_ssh_agent() {
     unset env
 }
 
-start_ssh_agent
+if [[ $LINUX_FLAVOR -ne wsl ]]; then
+    # don't care enough to make this work in wsl just yet
+    start_ssh_agent
+fi
