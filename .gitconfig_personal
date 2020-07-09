@@ -1,5 +1,0 @@
-[core]
-    autocrlf = true
-[user]
-    name = John Burnett
-    email = github@johnburnett.com

@@ -1,6 +1,23 @@
-[include]
-    path = ~/config/.gitconfig_global
-[include]
-    path = ~/config/.gitconfig_personal
+[push]
+    default = simple
+[core]
+    editor = 'C:/Program Files/Sublime Text 3/subl.exe' -w
+    autocrlf = true
+    safecrlf = true
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    required = true
+[user]
+    name = John Burnett
+    email = github@johnburnett.com
 [includeIf "gitdir/i:D:/bonfire/"]
     path = ~/config/.gitconfig_bonfire
