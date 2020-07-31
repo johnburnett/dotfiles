@@ -1,5 +1,6 @@
 [core]
-	autocrlf = true
+    autocrlf = true
+    safecrlf = true
 [user]
-	name = John Burnett
-	email = john@bonfirestudios.com
+    name = John Burnett
+    email = john@bonfirestudios.com

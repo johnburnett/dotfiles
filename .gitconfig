@@ -2,7 +2,7 @@
     default = simple
 [core]
     editor = 'C:/Program Files/Sublime Text 3/subl.exe' -w
-    autocrlf = true
+    autocrlf = false
     safecrlf = true
 [alias]
     co = checkout
