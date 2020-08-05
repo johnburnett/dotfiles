@@ -150,10 +150,15 @@ export SVN_EDITOR=nano
 ###############################################################################
 export CLICOLOR=1
 export LS_COLORS='no=00:fi=00:di=00;92:ln=00;94:mh=04:pi=00;33:so=00;33:bd=00;33:cd=00;33:or=01;94:su=01;31:sg=01;31:tw=01;92:ow=01;92:st=01;92:ex=00;31';
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
+if [[ $LINUX_FLAVOR == "linux" ]]; then
+    # this may be entirely wrong, but not going to care until I'm back on native
+    # Linux.  Setting this manually is currently causing issues on msys flavor
+    # bashes on Windows after upgrading to git 2.28 (e.g. by overwriting characters)
+    if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+            export TERM='xterm-256color'
+    else
+            export TERM='xterm-color'
+    fi
 fi
 
 #export HISTSIZE=10000

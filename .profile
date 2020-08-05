@@ -2,14 +2,17 @@
 # Personal environment variables and startup programs
 # Personal aliases and functions should go in ~/.bashrc.
 
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Darwin*)                export LINUX_FLAVOR=darwin;;
+    Linux*)                 export LINUX_FLAVOR=linux;;
+    CYGWIN*|MINGW*|MSYS*)   export LINUX_FLAVOR=msys;;
+esac
 if [[ -n ${WSL_DISTRO_NAME} ]]; then
-    LINUX_FLAVOR=wsl
-elif [[ -n ${XDG_DATA_DIRS+x} ]]; then
-    LINUX_FLAVOR=linux
-elif [[ -n ${WINDIR} ]]; then
-    LINUX_FLAVOR=msysgit
-else
-    echo "Unsupported distro"
+    export LINUX_FLAVOR=wsl
+fi
+if [[ -z "$LINUX_FLAVOR" ]]; then
+    read -p "Unsupported distro"
     exit 1
 fi
 
