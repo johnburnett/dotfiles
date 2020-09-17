@@ -1,5 +1,3 @@
-from __future__ import absolute_import, print_function
-
 print('Running "%s"' % __file__)
 
 def pythonrc():
