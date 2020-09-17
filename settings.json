@@ -77,9 +77,9 @@
     // Add custom color schemes to this array
     "schemes": [],
 
-    // Add any keybinding overrides to this array.
-    // To unbind a default keybinding, set the command to "unbound"
-    "keybindings": [
-        { "command": "closePane", "keys": "ctrl+d" }
+    "actions":
+    [
+        { "command": "nextTab", "keys": "ctrl+pgdn" },
+        { "command": "prevTab", "keys": "ctrl+pgup" }
     ]
 }
