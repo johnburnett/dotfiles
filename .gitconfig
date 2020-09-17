@@ -12,6 +12,14 @@
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     type = cat-file -t
     dump = cat-file -p
+    # get name of default branch (not necessarily "master") (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
+    default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+    # save all current state into a trash commit, for reflog retrieval later if needed (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
+    wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+    # Remove merged branches (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
+    bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs git branch -d; }; f"
+    # float changes on current branch to the top via rebase (https://stackoverflow.com/a/17141512)
+    float =  "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); OB=${CB}-old; git branch -m $OB; git checkout $DEFAULT; git checkout -b $CB; git merge --squash $OB; git commit; }; f"
 [filter "lfs"]
     clean = git-lfs clean -- %f
     smudge = git-lfs smudge -- %f
