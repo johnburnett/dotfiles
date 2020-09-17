@@ -19,7 +19,7 @@ case $LINUX_FLAVOR in
         alias f='nemo .'
         ;;
 
-    msysgit)
+    msys)
         alias st="/c/Program\ Files/Sublime\ Text\ 3/sublime_text.exe"
         alias dif="/c/Program\ Files/Araxis/Araxis\ Merge/Merge.exe"
         alias pw="cygpath -w"
