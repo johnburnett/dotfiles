@@ -10,10 +10,12 @@
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
     "defaultProfile": "{9ab491d9-61b8-4576-929f-347e7834241e}",
-    "initialCols": 120,
-    "initialRows": 30,
+    "initialCols": 160,
+    "initialRows": 40,
     "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?│",
     "confirmCloseAllTabs": true,
+    "multiLinePasteWarning": false,
+    "useTabSwitcher": false,
 
     "profiles":
     {
