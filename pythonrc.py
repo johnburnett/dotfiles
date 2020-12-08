@@ -1,6 +1,16 @@
+# coding=utf-8
+from __future__ import absolute_import as _
+from __future__ import division as _
+from __future__ import print_function as _
+from __future__ import unicode_literals as _
+
 print('Running "%s"' % __file__)
 
 def pythonrc():
+    import sys
+    if sys.version_info.major > 2:
+        return
+
     import atexit
     import code
     import os
