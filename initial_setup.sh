@@ -46,7 +46,7 @@ case $LINUX_FLAVOR in
             linkname=..\\$1
             linkcmd="mklink \"$linkname\" \"$linktarget\""
             if [[ ! -f $linktarget ]]; then {
-                cmd <<< $linkcmd &> /dev/null
+                cmd <<< $linkcmd
             }
             fi
         }
