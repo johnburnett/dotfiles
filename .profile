@@ -46,7 +46,7 @@ start_ssh_agent() {
     unset env
 }
 
-if [[ $LINUX_FLAVOR -ne wsl ]]; then
+if [[ $LINUX_FLAVOR != wsl ]]; then
     # don't care enough to make this work in wsl just yet
     start_ssh_agent
 fi
