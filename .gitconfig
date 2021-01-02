@@ -1,7 +1,11 @@
 [push]
     default = simple
+[init]
+    defaultBranch = main
 [core]
+    autocrlf = false
     editor = 'C:/Program Files/Sublime Text 3/subl.exe' -w
+    symlinks = true
 [alias]
     co = checkout
     ci = commit
