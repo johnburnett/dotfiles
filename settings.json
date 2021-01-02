@@ -6,6 +6,7 @@
 // https://www.guidgenerator.com/
 
 // mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\config\settings.json
+// mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\config\settings.json
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 

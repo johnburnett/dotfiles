@@ -2,8 +2,6 @@
     default = simple
 [core]
     editor = 'C:/Program Files/Sublime Text 3/subl.exe' -w
-    autocrlf = false
-    safecrlf = true
 [alias]
     co = checkout
     ci = commit
@@ -29,3 +27,11 @@
     email = github@johnburnett.com
 [includeIf "gitdir/i:D:/bonfire/"]
     path = ~/config/.gitconfig_bonfire
+[diff]
+	tool = araxis
+[difftool "araxis"]
+	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
+[merge]
+	tool = araxis
+[mergetool "araxis"]
+	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
