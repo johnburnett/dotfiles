@@ -1,8 +1,7 @@
 # ~/.bashrc
 # Personal aliases and functions
 
-FILE=/etc/bashrc && test -f $FILE && . $FILE
-FILE=~/.alias && test -f $FILE && . $FILE
+SOURCEFILE=/etc/bashrc && test -f "$SOURCEFILE" && source "$SOURCEFILE"
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -11,6 +10,8 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
   [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
 done
 THIS_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
+
+SOURCEFILE=$THIS_DIR/.alias && test -f "$SOURCEFILE" && source "$SOURCEFILE"
 
 ###############################################################################
 # Functions
@@ -165,8 +166,8 @@ fi
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 #HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
-export HISTTIMEFORMAT="%F %T"
-export HISTCONTROL=ignoredups:erasedups
+export HISTTIMEFORMAT="%F %T "
+export HISTCONTROL=ignoreboth:erasedups
 export HISTIGNORE="&:ls:la:sls:[bf]g:exit:set:e:alias:pipe:f"
 #export HISTFILE="${HOME}/.history/$(date -u +%Y%m%d.%H%M%S)_${HOSTNAME}_$$"
 #histgrep () {
@@ -229,7 +230,7 @@ shopt -s extglob
 shopt -s nocaseglob
 
 # enable bash completion in interactive shells
-FILE=/etc/bash_completion && test -f $FILE && . $FILE
+SOURCEFILE=/etc/bash_completion && test -f "$SOURCEFILE" && source "$SOURCEFILE"
 
 ###############################################################################
 # Key bindings
@@ -258,4 +259,5 @@ setAlias() {
 setAlias
 unset setAlias
 
-# source $THIS_DIR/../internal/.bashrc
+SOURCEFILE=$THIS_DIR/../configinternal/.alias && test -f "$SOURCEFILE" && source "$SOURCEFILE"
+SOURCEFILE=$THIS_DIR/../configinternal/.bashrc && test -f "$SOURCEFILE" && source "$SOURCEFILE"

@@ -22,6 +22,8 @@
 	bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs git branch -d; }; f"
 	# float changes on current branch to the top via rebase (https://stackoverflow.com/a/17141512)
 	float =  "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); OB=${CB}-old; git branch -m $OB; git checkout $DEFAULT; git checkout -b $CB; git merge --squash $OB; git commit; }; f"
+	# revert "most" assets that unity knows about
+	restoreassets = restore -- *.anim *.asset *.controller *.guiskin *.lighting *.mat *.prefab *.renderTexture *.shadervariants *.unity *.vfx *.vfxblock *.vfxoperator
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

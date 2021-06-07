@@ -8,7 +8,7 @@ alias grep="grep --color=auto"
 
 case $LINUX_FLAVOR in
     wsl)
-        alias st="/mnt/c/Program\ Files/Sublime\ Text\ 3/sublime_text.exe"
+        alias st="/mnt/c/Program\ Files/Sublime\ Text/sublime_text.exe"
         alias dif="/mnt/c/Program\ Files/Araxis/Araxis\ Merge/Merge.exe"
         alias pw="cygpath -w"
         alias pu="cygpath -u"
@@ -20,7 +20,7 @@ case $LINUX_FLAVOR in
         ;;
 
     msys)
-        alias st="/c/Program\ Files/Sublime\ Text\ 3/sublime_text.exe"
+        alias st="/c/Program\ Files/Sublime\ Text/sublime_text.exe"
         alias dif="/c/Program\ Files/Araxis/Araxis\ Merge/Merge.exe"
         alias pw="cygpath -w"
         alias pu="cygpath -u"
