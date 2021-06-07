@@ -23,8 +23,8 @@ fi
 # Setup shims
 case $LINUX_FLAVOR in
     wsl)
-        lnconfig() {
-            # target should be an absolute path, as we don't have config dir
+        lndotfiles() {
+            # target should be an absolute path, as we don't have dotfiles dir
             # checked out into wsl home dir
             linktarget=`readlink -f $1`
             linkname=~/$1
@@ -33,16 +33,16 @@ case $LINUX_FLAVOR in
         ;;
 
     linux)
-        lnconfig() {
-            linktarget=config/$1
+        lndotfiles() {
+            linktarget=dotfiles/$1
             linkname=../$1
             ln -sfT $linktarget $linkname
         }
         ;;
 
     msysgit)
-        lnconfig() {
-            linktarget=config\\$1
+        lndotfiles() {
+            linktarget=dotfiles\\$1
             linkname=..\\$1
             linkcmd="mklink \"$linkname\" \"$linktarget\""
             if [[ ! -f $linktarget ]]; then {
@@ -54,12 +54,12 @@ case $LINUX_FLAVOR in
 esac
 
 echo Linking dot files
-lnconfig .alias
-lnconfig .profile
-lnconfig .bashrc
-lnconfig .inputrc
-lnconfig .nanorc
-lnconfig .gitconfig
+lndotfiles .alias
+lndotfiles .profile
+lndotfiles .bashrc
+lndotfiles .inputrc
+lndotfiles .nanorc
+lndotfiles .gitconfig
 
 flavor_initial_setup=initial_setup_$LINUX_FLAVOR.sh
 if [[ -f $flavor_initial_setup ]]; then

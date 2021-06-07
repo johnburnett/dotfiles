@@ -9,6 +9,6 @@ set ROOT_MENU_KEY=HKCU\Software\Classes\Directory\shell\NukeDir
 reg delete "%ROOT_MENU_KEY%" /f
 reg add "%ROOT_MENU_KEY%" /ve /d "Nuke Directory"
 reg add "%ROOT_MENU_KEY%" /v "Icon" /f /d "shell32.dll,109"
-reg add "%ROOT_MENU_KEY%\command" /ve /t REG_EXPAND_SZ /d "\"%%PROGRAMFILES%%\Git\bin\bash.exe\" \"%%USERPROFILE%%\config\nukedir.sh\" \"%%1\""
+reg add "%ROOT_MENU_KEY%\command" /ve /t REG_EXPAND_SZ /d "\"%%PROGRAMFILES%%\Git\bin\bash.exe\" \"%%USERPROFILE%%\dotfiles\nukedir.sh\" \"%%1\""
 
 endlocal

@@ -33,7 +33,7 @@
 	name = John Burnett
 	email = github@johnburnett.com
 [includeIf "gitdir/i:D:/bonfire/"]
-	path = ~/config/.gitconfig_bonfire
+	path = ~/dotfiles/.gitconfig_bonfire
 [diff]
 	tool = araxis
 [difftool "araxis"]

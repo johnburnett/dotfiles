@@ -5,8 +5,8 @@
 // https://stackoverflow.com/questions/56839307/adding-git-bash-to-the-new-windows-terminal
 // https://www.guidgenerator.com/
 
-// mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\config\settings.json
-// mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\config\settings.json
+// mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\dotfiles\settings.json
+// mklink /H %LOCALAPPDATA%\Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json %USERPROFILE%\dotfiles\settings.json
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
@@ -16,7 +16,6 @@
     "wordDelimiters": " ./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}~?│",
     "confirmCloseAllTabs": true,
     "multiLinePasteWarning": false,
-    "useTabSwitcher": false,
 
     "profiles":
     {
@@ -82,7 +81,9 @@
 
     "actions":
     [
-        { "command": "nextTab", "keys": "ctrl+pgdn" },
-        { "command": "prevTab", "keys": "ctrl+pgup" }
+        { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
+        { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
+        { "command": { "action": "nextTab", "tabSwitcherMode": "mru" }, "keys": "ctrl+tab" },
+        { "command": { "action": "prevTab", "tabSwitcherMode": "mru" }, "keys": "ctrl+shift+tab" }
     ]
 }
