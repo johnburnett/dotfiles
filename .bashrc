@@ -259,5 +259,5 @@ setAlias() {
 setAlias
 unset setAlias
 
-SOURCEFILE=$THIS_DIR/../configinternal/.alias && test -f "$SOURCEFILE" && source "$SOURCEFILE"
-SOURCEFILE=$THIS_DIR/../configinternal/.bashrc && test -f "$SOURCEFILE" && source "$SOURCEFILE"
+SOURCEFILE=$THIS_DIR/../dotfiles_internal/.alias && test -f "$SOURCEFILE" && source "$SOURCEFILE"
+SOURCEFILE=$THIS_DIR/../dotfiles_internal/.bashrc && test -f "$SOURCEFILE" && source "$SOURCEFILE"
