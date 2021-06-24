@@ -1,7 +1,5 @@
 # ~/.alias
 
-alias st="sublime_text"
-
 alias ls="ls --color=auto --group-directories-first"
 alias la="ls --color=auto --group-directories-first -AlF"
 alias grep="grep --color=auto"
