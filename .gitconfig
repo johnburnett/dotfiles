@@ -42,3 +42,5 @@
 	tool = araxis
 [mergetool "araxis"]
 	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
+[rerere]
+	enabled = true
