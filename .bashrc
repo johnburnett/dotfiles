@@ -217,8 +217,8 @@ setPrompt() {
 	local backCyan='\e[46m'
 	local backWhite='\e[47m'
 
-	export PROMPT_COMMAND='RET_VALUE=$?; history -a'
-	export PS1="\[$green\]\$PWD\n\[$yellow\]\$RET_VALUE \[$purple\]\u@\h\$\[$noColor\] "
+	export PROMPT_COMMAND='RET_VALUE=$?; history -a; GIT_BRANCH=$(git branch --show-current 2> /dev/null)'
+	export PS1="\[$green\]\$PWD \[$dimPurple\](\$GIT_BRANCH)\n\[$yellow\]\$RET_VALUE \[$purple\]\u@\h\$\[$noColor\] "
 }
 setPrompt
 unset setPrompt
