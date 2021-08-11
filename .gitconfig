@@ -14,15 +14,19 @@
 	hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
 	type = cat-file -t
 	dump = cat-file -p
+	ignored = status --ignored=matching
+	rmignored = clean -Xdf
 	# get name of default branch (not necessarily "master") (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
 	default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
 	# save all current state into a trash commit, for reflog retrieval later if needed (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
 	wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
 	# Remove merged branches (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
 	bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs git branch -d; }; f"
-	float = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); git checkout $DEFAULT; git pull; git checkout $CB; git rebase $DEFAULT; }; f"
 	# float changes on current branch to the top via rebase (https://stackoverflow.com/a/17141512)
 	floatsquash = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); OB=${CB}-old; git branch -m $OB; git checkout $DEFAULT; git checkout -b $CB; git merge --squash $OB; git commit; }; f"
+	# float = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); git checkout $DEFAULT; git pull; git checkout $CB; git rebase $DEFAULT; }; f"
+	# float = "!f() { git fetch --all; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); }; f"
+	float = "!f() { git pull; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); }; f"
 	# revert "most" assets that unity knows about
 	restoreassets = restore -- *.anim *.asset *.controller *.guiskin *.lighting *.mat *.prefab *.renderTexture *.shadervariants *.unity *.vfx *.vfxblock *.vfxoperator
 [filter "lfs"]
@@ -35,13 +39,15 @@
 	email = github@johnburnett.com
 [includeIf "gitdir/i:D:/bonfire/"]
 	path = ~/dotfiles/.gitconfig_bonfire
+[diff "lfs"]
+	textconv = cat
 [diff]
 	tool = araxis
 [difftool "araxis"]
-	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
+	path = 'C:/Program Files/Araxis/Araxis Merge/Compare.exe'
 [merge]
 	tool = araxis
 [mergetool "araxis"]
-	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
+	path = 'C:/Program Files/Araxis/Araxis Merge/Compare.exe'
 [rerere]
 	enabled = true
