@@ -162,7 +162,7 @@ if [[ $LINUX_FLAVOR == "linux" ]]; then
     fi
 fi
 
-#export HISTSIZE=10000
+export HISTSIZE=10000
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 #HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
