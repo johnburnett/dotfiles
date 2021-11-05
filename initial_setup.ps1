@@ -5,8 +5,69 @@ $net_profile = join-path -path (split-path $MyInvocation.MyCommand.Path -parent)
 $local_profile = join-path -path ([environment]::getfolderpath("mydocuments")) -childpath "WindowsPowerShell\profile.ps1"
 new-item -path $local_profile -itemtype "file" -force -value (". " + $net_profile + "`n")
 
-function set_user_var($name, $value) {
-    [Environment]::SetEnvironmentVariable($name, $value, [System.EnvironmentVariableTarget]::User)
+function Pause($message)
+{
+    # Check if running Powershell ISE
+    if ($psISE)
+    {
+        Add-Type -AssemblyName System.Windows.Forms
+        [System.Windows.Forms.MessageBox]::Show("$message")
+    }
+    else
+    {
+        Write-Host "$message" -ForegroundColor Yellow
+        $x = $host.ui.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    }
+}
+
+function SetKeyRate()
+{
+    # Based on the following app that lets you set keyboard repeat rate outside the
+    # ranges allowed in the Windows UI:
+    #
+    #   https://geekhack.org/index.php?topic=41881.0
+    #   https://www.reddit.com/r/AllThingsTerran/comments/54z257/hotkey_users_improve_keyboard_repeat_rate_and/
+    #
+    # ...which has MFC code that boils down to this, in C# because:
+    $code = @'
+        [DllImport("user32.dll", SetLastError = false)]
+        internal static extern bool SystemParametersInfo(uint uiAction, uint uiParam, ref FILTERKEYS pvParam, uint fWinIni);
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal struct FILTERKEYS
+        {
+            public uint cbSize;
+            public uint dwFlags;
+            public uint iWaitMSec;
+            public uint iDelayMSec;
+            public uint iRepeatMSec;
+            public uint iBounceMSec;
+        }
+        const uint SPI_SETFILTERKEYS = 0x0033;
+        const uint SPIF_UPDATEINIFILE = 0x01;
+        const uint SPIF_SENDCHANGE = 0x02;
+        const uint FKF_FILTERKEYSON = 0x00000001;
+        const uint FKF_AVAILABLE = 0x00000002;
+        const uint FKF_CONFIRMHOTKEY = 0x00000008;
+        const uint FKF_HOTKEYSOUND = 0x00000010;
+        const uint FKF_INDICATOR = 0x00000020;
+        public static void SetKeyRate()
+        {
+            FILTERKEYS fk = new FILTERKEYS();
+            fk.cbSize = (uint)Marshal.SizeOf(fk);
+            fk.dwFlags = FKF_FILTERKEYSON | FKF_AVAILABLE | FKF_CONFIRMHOTKEY | FKF_HOTKEYSOUND | FKF_INDICATOR;
+            fk.iWaitMSec = 0;
+            fk.iDelayMSec = 250;
+            fk.iRepeatMSec = 20;
+            fk.iBounceMSec = 0;
+            uint winini = SPIF_UPDATEINIFILE | SPIF_SENDCHANGE;
+            if (!SystemParametersInfo(SPI_SETFILTERKEYS, fk.cbSize, ref fk, winini))
+            {
+                Console.WriteLine("System call failed.\nUnable to set keyrate.");
+            }
+        }
+'@
+    Add-Type -MemberDefinition $code -Name SetKeyRateUtil -Namespace Throwaway
+    [Throwaway.SetKeyRateUtil]::SetKeyRate()
 }
 
 # Ask for elevated permissions if required
@@ -26,6 +87,9 @@ New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name 
 
 Write-Host "Enabling short keyboard delay..."
 New-ItemProperty "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0 -Force
+
+Write-Host "Setting key rate via filter keys..."
+SetKeyRate
 
 Write-Host "Disabling Sticky keys prompt..."
 Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
@@ -53,3 +117,5 @@ $internal_setup_path = join-path -path $PSScriptRoot -childpath "..\internal\ini
 if (Test-Path $internal_setup_path -PathType Leaf) {
     . $internal_setup_path
 }
+
+Pause("press any key...")
