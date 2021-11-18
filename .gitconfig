@@ -40,6 +40,8 @@
 	email = github@johnburnett.com
 [includeIf "gitdir/i:D:/bonfire/"]
 	path = ~/dotfiles/.gitconfig_bonfire
+[includeIf "gitdir/i:D:/Projects/"]
+	path = ~/dotfiles/.gitconfig_bonfire
 [diff "lfs"]
 	textconv = cat
 [diff]
