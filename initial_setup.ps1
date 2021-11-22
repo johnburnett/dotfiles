@@ -102,6 +102,23 @@ if (!(Test-Path $path))
 }
 Set-ItemProperty -Path $path -Name "NoWindowMinimizingShortcuts" -Type DWord -Value 1
 
+Write-Host "Explorer Settings"
+$path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+Set-ItemProperty -Path $path -Name "DontPrettyPath" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "Hidden" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "HideFileExt" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "HideIcons" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "HideMergeConflicts" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "NavPaneShowAllFolders" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "ShowInfoTip" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "ShowStatusBar" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "ShowSuperHidden" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "TaskbarAl" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "TaskbarSi" -Type DWord -Value 0
+Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
+Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
+
 Write-Host "Disable Thumbs.db"
 $path = "HKCU:\Software\Policies\Microsoft\Windows\Explorer\Advanced"
 if (!(Test-Path $path))
