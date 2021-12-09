@@ -78,8 +78,23 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 }
 
 Write-Host "Setup environment"
+function PrefixPath([string] $name, [string] $path, [string] $target)
+{
+    $escapedPath = [regex]::Escape($path)
+    $existingValueParts = [Environment]::GetEnvironmentVariable($name, $target) -split ';'
+    foreach ($part in $existingValueParts)
+    {
+        if ($part -match "^$escapedPath\\?")
+        {
+            return
+        }
+    }
+    $newValue = (@($path) + $existingValueParts) -join ';'
+    [Environment]::SetEnvironmentVariable($name, $newValue, $target)
+}
 [Environment]::SetEnvironmentVariable("DIRCMD", "/A /OGN", "User")
 [Environment]::SetEnvironmentVariable("PYTHONDONTWRITEBYTECODE", "1", "User")
+PrefixPath "PATH" "J:\My Drive\bin" "User"
 
 Write-Host "Remap CapsLock"
 $mapCapsLockToLeftCtrl = [byte[]](00,00,00,00,00,00,00,00,0x02,00,00,00,0x1D,00,0x3A,00,00,00,00,00)

@@ -47,7 +47,7 @@
 [diff]
 	tool = araxis
 [difftool "araxis"]
-	path = 'C:/Program Files/Araxis/Araxis Merge/Compare.exe'
+	path = C:/Program Files/Araxis/Araxis Merge/Compare.exe
 [merge]
 	tool = araxis
 [mergetool "araxis"]

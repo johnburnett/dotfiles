@@ -1,0 +1,80 @@
+{
+ "HideCRLF":0,
+ "HighlightMatchingWordsBgnd":"#fff75b",
+ "HighlightMatchingWordsDelay":0,
+ "IgnoreLineEndings":1,
+ "PatternFilterSchemes":[
+  {
+   "name":"Aggressive",
+   "patterns":[
+    {
+     "match":1,
+     "pattern":"**",
+     "type":0
+    },
+    {
+     "match":0,
+     "pattern":"**",
+     "type":0
+    },
+    {
+     "match":1,
+     "pattern":"__pycache__",
+     "type":1
+    },
+    {
+     "match":1,
+     "pattern":".git",
+     "type":1
+    },
+    {
+     "match":1,
+     "pattern":".hg",
+     "type":1
+    }
+   ]
+  },
+  {
+   "name":"Default",
+   "patterns":[
+    {
+     "match":1,
+     "pattern":"**",
+     "type":0
+    },
+    {
+     "match":0,
+     "pattern":"**",
+     "type":0
+    }
+   ]
+  }
+ ],
+ "RegularExpressions":[
+  {
+   "description":"Blank lines",
+   "enabled":false,
+   "expression":"^[ \\t]*$",
+   "fields":"*",
+   "inline":false,
+   "sample":""
+  },
+  {
+   "description":"Maya Node UUID",
+   "enabled":false,
+   "expression":"^\\s+rename -uid \"[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\";$",
+   "fields":"*",
+   "inline":false,
+   "sample":"Sample text"
+  },
+  {
+   "description":"FBX Node ID",
+   "enabled":false,
+   "expression":"\\d{13}",
+   "fields":"*",
+   "inline":false,
+   "sample":"Sample text"
+  }
+ ],
+ "TabExpandVal":4
+}

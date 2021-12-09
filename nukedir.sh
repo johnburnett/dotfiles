@@ -14,7 +14,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     mv "$ORIGINAL_POSIX_DIR_PATH" "$NUKE_DIR_PATH" || {
         echo "ERROR: could not move path: \"$ORIGINAL_POSIX_DIR_PATH\""
         echo "Searching for uses:"
-        $USERPROFILE/Dropbox/bin/handle64.exe -nobanner "$ORIGINAL_WIN_DIR_PATH"
+        /j/My\ Drive/bin/handle64.exe -nobanner "$ORIGINAL_WIN_DIR_PATH"
         read -n 1 -r -p "Press any key to exit"
         exit 1
     }
