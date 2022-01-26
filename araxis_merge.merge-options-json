@@ -68,6 +68,22 @@
    "sample":"Sample text"
   },
   {
+   "description":"Maya User Prefs (semicolon)",
+   "enabled":false,
+   "expression":";$",
+   "fields":"*",
+   "inline":true,
+   "sample":"Sample text"
+  },
+  {
+   "description":"Maya User Prefs (optionVar)",
+   "enabled":false,
+   "expression":"^optionVar$",
+   "fields":"*",
+   "inline":false,
+   "sample":"Sample text"
+  },
+  {
    "description":"FBX Node ID",
    "enabled":false,
    "expression":"\\d{13}",
