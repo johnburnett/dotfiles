@@ -16,6 +16,7 @@
 	dump = cat-file -p
 	ignored = status --ignored=matching
 	rmignored = clean -Xdf
+	info = log --pretty=format:\"%h %cD | "%cn" | %s\" -n 1
 	# get name of default branch (not necessarily "master") (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
 	default = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
 	# save all current state into a trash commit, for reflog retrieval later if needed (https://haacked.com/archive/2014/07/28/github-flow-aliases/)
@@ -27,7 +28,7 @@
 	# float = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); git checkout $DEFAULT; git pull; git checkout $CB; git rebase $DEFAULT; }; f"
 	# float = "!f() { git fetch --all; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); }; f"
 	stashall = stash push --keep-index --include-untracked
-	float = "!f() { git stashall; git pull; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); git stash pop; }; f"
+	float = "!f() { [[ ! -z $(git status --porcelain) ]] && FLOAT_STASHED=1; git stashall; git pull; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); if [ ! -z ${FLOAT_STASHED+x} ]; then git stash pop; fi; }; f"
 	# revert "most" assets that unity knows about
 	restoreassets = restore -- *.anim *.asset *.controller *.guiskin *.lighting *.mat *.prefab *.renderTexture *.shadervariants *.unity *.vfx *.vfxblock *.vfxoperator
 [filter "lfs"]
