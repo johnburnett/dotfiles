@@ -25,10 +25,8 @@
 	bclean = "!f() { DEFAULT=$(git default); git branch --merged ${1-$DEFAULT} | grep -v " ${1-$DEFAULT}$" | xargs git branch -d; }; f"
 	# float changes on current branch to the top via rebase (https://stackoverflow.com/a/17141512)
 	floatsquash = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); OB=${CB}-old; git branch -m $OB; git checkout $DEFAULT; git checkout -b $CB; git merge --squash $OB; git commit; }; f"
-	# float = "!f() { DEFAULT=$(git default); CB=$(git branch --show-current); git checkout $DEFAULT; git pull; git checkout $CB; git rebase $DEFAULT; }; f"
-	# float = "!f() { git fetch --all; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); }; f"
 	stashall = stash push --keep-index --include-untracked
-	float = "!f() { [[ ! -z $(git status --porcelain) ]] && FLOAT_STASHED=1; git stashall; git pull; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); if [ ! -z ${FLOAT_STASHED+x} ]; then git stash pop; fi; }; f"
+	float = "!f() { [[ ! -z $(git status --porcelain) ]] && FLOAT_STASHED=1; git stashall; git fetch origin; git rebase $(git symbolic-ref refs/remotes/origin/HEAD); if [ ! -z ${FLOAT_STASHED+x} ]; then git stash pop; fi; }; f"
 	# revert "most" assets that unity knows about
 	restoreassets = restore -- *.anim *.asset *.controller *.guiskin *.lighting *.mat *.prefab *.renderTexture *.shadervariants *.unity *.vfx *.vfxblock *.vfxoperator
 [filter "lfs"]
