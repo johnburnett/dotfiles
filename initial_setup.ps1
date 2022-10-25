@@ -70,6 +70,14 @@ function SetKeyRate()
     [Throwaway.SetKeyRateUtil]::SetKeyRate()
 }
 
+function EnsureKey($path)
+{
+    if (!(Test-Path $path))
+    {
+        New-Item -Path $path -Force | Out-Null
+    }
+}
+
 # Ask for elevated permissions if required
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
 {
@@ -111,10 +119,7 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Fla
 
 Write-Host "Disable Shake"
 $path = "HKCU:\Software\Policies\Microsoft\Windows\Explorer"
-if (!(Test-Path $path))
-{
-    New-Item -Path $path -Force | Out-Null
-}
+EnsureKey($path)
 Set-ItemProperty -Path $path -Name "NoWindowMinimizingShortcuts" -Type DWord -Value 1
 
 Write-Host "Explorer Settings"
@@ -136,10 +141,7 @@ Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
 
 Write-Host "Disable Thumbs.db"
 $path = "HKCU:\Software\Policies\Microsoft\Windows\Explorer\Advanced"
-if (!(Test-Path $path))
-{
-    New-Item -Path $path -Force | Out-Null
-}
+EnsureKey($path)
 Set-ItemProperty -Path $path -Name "DisableThumbnailCache" -Type DWord -Value 1
 
 Write-Host "Enabling fast menu fly-outs..."
@@ -149,5 +151,13 @@ $internal_setup_path = join-path -path $PSScriptRoot -childpath "..\internal\ini
 if (Test-Path $internal_setup_path -PathType Leaf) {
     . $internal_setup_path
 }
+
+Write-Host "Enable old-style context menus"
+$path = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+EnsureKey($path)
+Set-Item -Path $path -Value ""
+
+Write-Host "Restarting Explorer"
+Stop-Process -Name explorer -Force
 
 Pause("press any key...")
