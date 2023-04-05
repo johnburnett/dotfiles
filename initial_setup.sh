@@ -26,28 +26,27 @@ case $LINUX_FLAVOR in
         lndotfiles() {
             # target should be an absolute path, as we don't have dotfiles dir
             # checked out into wsl home dir
-            linktarget=`readlink -f $1`
-            linkname=~/$1
-            ln -sfT $linktarget $linkname
+            existing_target=`readlink -f $1`
+            link_name=~/$1
+            ln -sfT $existing_target $link_name
         }
         ;;
 
     linux)
         lndotfiles() {
-            linktarget=dotfiles/$1
-            linkname=../$1
-            ln -sfT $linktarget $linkname
+            existing_target=dotfiles/$1
+            link_name=../$1
+            ln -sfT $existing_target $link_name
         }
         ;;
 
     msysgit)
         lndotfiles() {
-            linktarget=dotfiles\\$1
-            linkname=..\\$1
-            linkcmd="mklink \"$linkname\" \"$linktarget\""
-            if [[ ! -f $linktarget ]]; then {
+            existing_target=dotfiles\\$1
+            link_name=..\\$1
+            linkcmd="mklink \"$link_name\" \"$existing_target\""
+            if [[ ! -f $link_name ]]; then
                 cmd <<< $linkcmd
-            }
             fi
         }
         ;;
