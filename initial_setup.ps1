@@ -130,13 +130,15 @@ Set-ItemProperty -Path $path -Name "HideFileExt" -Type DWord -Value 0
 Set-ItemProperty -Path $path -Name "HideIcons" -Type DWord -Value 0
 Set-ItemProperty -Path $path -Name "HideMergeConflicts" -Type DWord -Value 0
 Set-ItemProperty -Path $path -Name "NavPaneExpandToCurrentFolder" -Type DWord -Value 1
-Set-ItemProperty -Path $path -Name "NavPaneShowAllFolders" -Type DWord -Value 1
+# Win11 22H2 broke quick access reordering, and disabling this seems to fix it.  Found via comments in https://archive.ph/HGYOw
+# Set-ItemProperty -Path $path -Name "NavPaneShowAllFolders" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "ShowInfoTip" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "ShowStatusBar" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "ShowSuperHidden" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "TaskbarAl" -Type DWord -Value 0
-Set-ItemProperty -Path $path -Name "TaskbarSi" -Type DWord -Value 0
-Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
+# These no longer works in Win11 22H2
+# Set-ItemProperty -Path $path -Name "TaskbarSi" -Type DWord -Value 0
+# Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
 
 Write-Host "Disable Thumbs.db"
