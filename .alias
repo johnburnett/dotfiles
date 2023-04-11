@@ -22,7 +22,7 @@ case $LINUX_FLAVOR in
         alias f='start .'
         alias pu="cygpath -u"
         alias pw="cygpath -w"
-        alias python="/c/Program\ Files/Python311/python.exe"
+        alias python="/c/Program\ Files/Python310/python.exe"
         alias st="/c/Program\ Files/Sublime\ Text/sublime_text.exe"
         ;;
 esac
