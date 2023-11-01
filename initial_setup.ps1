@@ -141,11 +141,6 @@ Set-ItemProperty -Path $path -Name "TaskbarAl" -Type DWord -Value 0
 # Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
 
-Write-Host "Disable Thumbs.db"
-$path = "HKCU:\Software\Policies\Microsoft\Windows\Explorer\Advanced"
-EnsureKey($path)
-Set-ItemProperty -Path $path -Name "DisableThumbnailCache" -Type DWord -Value 1
-
 Write-Host "Enabling fast menu fly-outs..."
 New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
 
@@ -161,5 +156,10 @@ Set-Item -Path $path -Value ""
 
 Write-Host "Restarting Explorer"
 Stop-Process -Name explorer -Force
+
+Write-Host "Photoshop CS6 overscroll panning"
+$path = "HKEY_CURRENT_USER\Software\Adobe\Photoshop\60.0"
+EnsureKey($path)
+Set-ItemProperty -Path $path -Name "ExtraOverscrolling" -Type DWord -Value 2
 
 Pause("press any key...")
