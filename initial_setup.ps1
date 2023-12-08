@@ -102,6 +102,7 @@ function PrefixPath([string] $name, [string] $path, [string] $target)
 }
 [Environment]::SetEnvironmentVariable("DIRCMD", "/A /OGN", "User")
 [Environment]::SetEnvironmentVariable("PYTHONDONTWRITEBYTECODE", "1", "User")
+[Environment]::SetEnvironmentVariable("PIP_REQUIRE_VIRTUALENV", "true", "User")
 PrefixPath "PATH" "J:\My Drive\bin" "User"
 
 Write-Host "Remap CapsLock"

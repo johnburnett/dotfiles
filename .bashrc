@@ -53,6 +53,7 @@ function backSlash() { echo $1 | tr "/" '\\'; }
 
 export PYTHONSTARTUP=$THIS_DIR/pythonrc.py
 export PYTHONDONTWRITEBYTECODE=1
+export PIP_REQUIRE_VIRTUALENV=true
 
 export GREP_COLOR='1;32'
 
