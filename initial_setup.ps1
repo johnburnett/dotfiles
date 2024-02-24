@@ -103,7 +103,7 @@ function PrefixPath([string] $name, [string] $path, [string] $target)
 [Environment]::SetEnvironmentVariable("DIRCMD", "/A /OGN", "User")
 [Environment]::SetEnvironmentVariable("PYTHONDONTWRITEBYTECODE", "1", "User")
 [Environment]::SetEnvironmentVariable("PIP_REQUIRE_VIRTUALENV", "true", "User")
-PrefixPath "PATH" "J:\My Drive\bin" "User"
+PrefixPath "PATH" "G:\My Drive\bin" "User"
 
 Write-Host "Remap CapsLock"
 $mapCapsLockToLeftCtrl = [byte[]](00,00,00,00,00,00,00,00,0x02,00,00,00,0x1D,00,0x3A,00,00,00,00,00)
