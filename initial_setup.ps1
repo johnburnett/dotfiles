@@ -142,6 +142,12 @@ Set-ItemProperty -Path $path -Name "TaskbarAl" -Type DWord -Value 0
 # Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
 
+Write-Host "Beta: Use Unicode UTF-8 for worldwide language support"
+$path = "HKLM:\SYSTEM\CurrentControlSet\Control\Nls\CodePage"
+Set-ItemProperty -Path $path -Name "ACP" -Type String -Value "65001"
+Set-ItemProperty -Path $path -Name "OEMCP" -Type String -Value "65001"
+Set-ItemProperty -Path $path -Name "MACCP" -Type String -Value "65001"
+
 Write-Host "Enabling fast menu fly-outs..."
 New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
 
