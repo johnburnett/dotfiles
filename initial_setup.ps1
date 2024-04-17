@@ -81,7 +81,7 @@ function EnsureKey($path)
 # Ask for elevated permissions if required
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
 {
-    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    Start-Process pwsh.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
     Exit
 }
 
@@ -168,5 +168,10 @@ Write-Host "Photoshop CS6 overscroll panning"
 $path = "HKEY_CURRENT_USER\Software\Adobe\Photoshop\60.0"
 EnsureKey($path)
 Set-ItemProperty -Path $path -Name "ExtraOverscrolling" -Type DWord -Value 2
+
+$install_apps_path = join-path -path $PSScriptRoot -childpath "install_apps.ps1"
+if (Test-Path $install_apps_path -PathType Leaf) {
+    . $install_apps_path
+}
 
 Pause("press any key...")
