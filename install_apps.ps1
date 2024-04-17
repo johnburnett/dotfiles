@@ -14,6 +14,7 @@ $pkgids = @(
     'Google.Chrome'
     'Mozilla.Firefox'
 
+    'Beeper.Beeper'
     'OpenWhisperSystems.Signal'
     'Zoom.Zoom'
     'Discord.Discord'
@@ -26,6 +27,7 @@ $pkgids = @(
     'Git.Git'
     'TortoiseGit.TortoiseGit'
     'Slik.Subversion'
+    'Araxis.Merge'
     'Python.Python.3.11'
     'OpenJS.NodeJS'
     'Kitware.CMake'
@@ -39,9 +41,6 @@ $pkgids = @(
     'BlenderFoundation.Blender'
     'ImageMagick.ImageMagick'
     'VideoLAN.VLC'
-
-    # https://download.beeper.com/windows/nsis/x64/Beeper Setup 3.103.36 - x64.exe
-    # https://downloads.araxis.com/Merge/2024.5981-windows/Merge2024.5981-x64.msi
 )
 
 function Pause($message)
