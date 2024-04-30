@@ -2,7 +2,7 @@ $pkgids = @(
     'Microsoft.WindowsTerminal'
     'Microsoft.PowerShell'
 
-    'SublimeHQ.SublimeText.Dev'
+    'SublimeHQ.SublimeText.4.Dev'
     'SublimeHQ.SublimeMerge.Dev'
     'Obsidian.Obsidian'
 
