@@ -179,6 +179,11 @@ if (Test-Path $internal_setup_path -PathType Leaf) {
     . $internal_setup_path
 }
 
+Write-Host "Sublime right-click menu"
+$path = "HKCU:\Software\Classes\*\shell\Open with Sublime Text\command"
+EnsureKey($path)
+Set-Item -Path $path -Value 'C:\Program Files\Sublime Text\sublime_text.exe "%1"'
+
 Write-Host "Enable old-style context menus"
 $path = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
 EnsureKey($path)
