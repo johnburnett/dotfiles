@@ -14,4 +14,4 @@ lndir() {
 }
 
 echo Linking .ssh dir
-lndir "G:\My Drive\.ssh" "$USERPROFILE\.ssh"
+lndir "G:\My Drive\hal\.ssh" "$USERPROFILE\.ssh"
