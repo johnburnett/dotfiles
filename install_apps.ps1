@@ -26,6 +26,7 @@ $pkgids = @(
 
     'Git.Git'
     'TortoiseGit.TortoiseGit'
+    'Mercurial.Mercurial'
     'Slik.Subversion'
     'Araxis.Merge'
     'Python.Python.3.11'
