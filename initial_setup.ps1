@@ -142,6 +142,21 @@ Set-ItemProperty -Path $path -Name "TaskbarAl" -Type DWord -Value 0
 # Set-ItemProperty -Path $path -Name "TaskbarSmallIcons" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "UseCompactMode" -Type DWord -Value 1
 
+# https://answers.microsoft.com/en-us/windows/forum/all/completely-disable-file-grouping-always-everywhere/ac31a227-f585-4b0a-ab2e-a557828eaec5
+Write-Host "Disable Explorer grouping"
+$RegExe = "$env:SystemRoot\System32\Reg.exe"
+$TempRegFile = "$env:Temp\Temp.reg"
+$Key = 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}'
+& $RegExe Export $Key $TempRegFile /y
+$RegData = Get-Content $TempRegFile
+$RegData = $RegData -Replace 'HKEY_LOCAL_MACHINE', 'HKEY_CURRENT_USER'
+$RegData = $RegData -Replace '"GroupBy"="System.DateModified"', '"GroupBy"=""'
+$RegData | Out-File $TempRegFile
+& $RegExe Import $TempRegFile
+Remove-Item $TempRegFile
+Remove-Item -Force -Recurse -Path 'HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags'
+Remove-Item -Force -Recurse -Path 'HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU'
+
 Write-Host "Disabling advertisements"
 # Sync provider notifications in File Explorer
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value 0
