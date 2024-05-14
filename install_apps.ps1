@@ -8,6 +8,7 @@ $pkgids = @(
 
     'voidtools.Everything'
     'Google.GoogleDrive'
+    'Rclone.Rclone'
     '7zip.7zip'
 
     'Brave.Brave'
