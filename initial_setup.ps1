@@ -113,6 +113,9 @@ Set-ItemProperty -Path $path -Name "ACP" -Type String -Value "65001"
 Set-ItemProperty -Path $path -Name "OEMCP" -Type String -Value "65001"
 Set-ItemProperty -Path $path -Name "MACCP" -Type String -Value "65001"
 
+Write-Host "Enable long path support"
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Type DWord -Value 1 -Force
+
 ################################################################################
 # User-level settings
 
