@@ -1,6 +1,13 @@
 # allow script execution for current user:
 #   set-executionpolicy -force -scope currentuser remotesigned
 
+# Ask for elevated permissions if required
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
+{
+    Start-Process pwsh.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    Exit
+}
+
 $net_profile = join-path -path (split-path $MyInvocation.MyCommand.Path -parent) -childpath "profile.ps1"
 $local_profile = join-path -path ([environment]::getfolderpath("mydocuments")) -childpath "WindowsPowerShell\profile.ps1"
 new-item -path $local_profile -itemtype "file" -force -value (". " + $net_profile + "`n")
@@ -78,14 +85,6 @@ function EnsureKey($path)
     }
 }
 
-# Ask for elevated permissions if required
-If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"))
-{
-    Start-Process pwsh.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    Exit
-}
-
-Write-Host "Setup environment"
 function PrefixPath([string] $name, [string] $path, [string] $target)
 {
     $escapedPath = [regex]::Escape($path)
@@ -100,15 +99,29 @@ function PrefixPath([string] $name, [string] $path, [string] $target)
     $newValue = (@($path) + $existingValueParts) -join ';'
     [Environment]::SetEnvironmentVariable($name, $newValue, $target)
 }
+
+################################################################################
+# Machine-level settings
+
+Write-Host "Remap CapsLock"
+$mapCapsLockToLeftCtrl = [byte[]](00,00,00,00,00,00,00,00,0x02,00,00,00,0x1D,00,0x3A,00,00,00,00,00)
+New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "Scancode Map" -PropertyType "Binary" -Value $mapCapsLockToLeftCtrl -Force
+
+Write-Host "Beta: Use Unicode UTF-8 for worldwide language support"
+$path = "HKLM:\SYSTEM\CurrentControlSet\Control\Nls\CodePage"
+Set-ItemProperty -Path $path -Name "ACP" -Type String -Value "65001"
+Set-ItemProperty -Path $path -Name "OEMCP" -Type String -Value "65001"
+Set-ItemProperty -Path $path -Name "MACCP" -Type String -Value "65001"
+
+################################################################################
+# User-level settings
+
+Write-Host "Setup environment"
 [Environment]::SetEnvironmentVariable("DIRCMD", "/A /OGN", "User")
 [Environment]::SetEnvironmentVariable("PYTHONDONTWRITEBYTECODE", "1", "User")
 [Environment]::SetEnvironmentVariable("PIP_REQUIRE_VIRTUALENV", "true", "User")
 [Environment]::SetEnvironmentVariable("RCLONE_CONFIG", "$Env:USERPROFILE\.ssh\rclone.conf", "User")
 PrefixPath "PATH" "G:\My Drive\hal\bin" "User"
-
-Write-Host "Remap CapsLock"
-$mapCapsLockToLeftCtrl = [byte[]](00,00,00,00,00,00,00,00,0x02,00,00,00,0x1D,00,0x3A,00,00,00,00,00)
-New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "Scancode Map" -PropertyType "Binary" -Value $mapCapsLockToLeftCtrl -Force
 
 Write-Host "Enabling short keyboard delay..."
 New-ItemProperty "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0 -Force
@@ -181,19 +194,8 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy"
 # "Show recommendations for tips, shortcuts, new apps, and more" on Start
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_IrisRecommendations" -Type DWord -Value 0
 
-Write-Host "Beta: Use Unicode UTF-8 for worldwide language support"
-$path = "HKLM:\SYSTEM\CurrentControlSet\Control\Nls\CodePage"
-Set-ItemProperty -Path $path -Name "ACP" -Type String -Value "65001"
-Set-ItemProperty -Path $path -Name "OEMCP" -Type String -Value "65001"
-Set-ItemProperty -Path $path -Name "MACCP" -Type String -Value "65001"
-
 Write-Host "Enabling fast menu fly-outs..."
 New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
-
-$internal_setup_path = join-path -path $PSScriptRoot -childpath "..\internal\initial_setup.ps1"
-if (Test-Path $internal_setup_path -PathType Leaf) {
-    . $internal_setup_path
-}
 
 Write-Host "Sublime right-click menu"
 $path = "HKCU:\Software\Classes\*\shell\Open with Sublime Text\command"
@@ -205,17 +207,22 @@ $path = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\Inp
 EnsureKey($path)
 Set-Item -Path $path -Value ""
 
-Write-Host "Restarting Explorer"
-Stop-Process -Name explorer -Force
-
 Write-Host "Photoshop CS6 overscroll panning"
 $path = "HKEY_CURRENT_USER\Software\Adobe\Photoshop\60.0"
 EnsureKey($path)
 Set-ItemProperty -Path $path -Name "ExtraOverscrolling" -Type DWord -Value 2
 
+$internal_setup_path = join-path -path $PSScriptRoot -childpath "..\internal\initial_setup.ps1"
+if (Test-Path $internal_setup_path -PathType Leaf) {
+    . $internal_setup_path
+}
+
 $install_apps_path = join-path -path $PSScriptRoot -childpath "install_apps.ps1"
 if (Test-Path $install_apps_path -PathType Leaf) {
     . $install_apps_path
 }
+
+Write-Host "Restarting Explorer"
+Stop-Process -Name explorer -Force
 
 Pause("press any key...")
