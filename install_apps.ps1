@@ -11,9 +11,9 @@ $pkgids = @(
     'Rclone.Rclone'
     '7zip.7zip'
 
-    'Brave.Brave'
-    'Google.Chrome'
+    'Vivaldi.Vivaldi'
     'Mozilla.Firefox'
+    'Google.Chrome'
 
     'Beeper.Beeper'
     'OpenWhisperSystems.Signal'
@@ -30,10 +30,11 @@ $pkgids = @(
     'Mercurial.Mercurial'
     'Slik.Subversion'
     'Araxis.Merge'
-    'Python.Python.3.11'
+    'Python.Python.3.12'
     'OpenJS.NodeJS'
     'Kitware.CMake'
     'Microsoft.VisualStudio.2022.Community'
+    'GoLang.Go'
 
     'evsar3.sshfs-win-manager'
     'NordSecurity.NordVPN'
@@ -43,6 +44,8 @@ $pkgids = @(
     'BlenderFoundation.Blender'
     'ImageMagick.ImageMagick'
     'VideoLAN.VLC'
+    'FFmpeg'
+    'OliverBetz.ExifTool'
 )
 
 function Pause($message)
@@ -71,7 +74,8 @@ foreach ( $pkgid in $pkgids )
 {
     Write-Host -ForegroundColor 'Green' $pkgid
     # winget list $pkgid || winget install --accept-package-agreements --accept-source-agreements --exact --silent --query $pkgid
-    winget install --accept-package-agreements --accept-source-agreements --exact --silent --query $pkgid
+    winget install --accept-package-agreements --accept-source-agreements --scope=machine --exact --silent --query "$pkgid"
 }
+winget upgrade --all
 
 Pause("press any key...")
