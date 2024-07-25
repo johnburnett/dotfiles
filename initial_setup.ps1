@@ -105,16 +105,16 @@ function PrefixPath([string] $name, [string] $path, [string] $target)
 
 Write-Host "Remap CapsLock"
 $mapCapsLockToLeftCtrl = [byte[]](00,00,00,00,00,00,00,00,0x02,00,00,00,0x1D,00,0x3A,00,00,00,00,00)
-New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "Scancode Map" -PropertyType "Binary" -Value $mapCapsLockToLeftCtrl -Force
+New-ItemProperty "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "Scancode Map" -PropertyType "Binary" -Value $mapCapsLockToLeftCtrl -Force
 
 Write-Host "Beta: Use Unicode UTF-8 for worldwide language support"
-$path = "HKLM:\SYSTEM\CurrentControlSet\Control\Nls\CodePage"
+$path = "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\CodePage"
 Set-ItemProperty -Path $path -Name "ACP" -Type String -Value "65001"
 Set-ItemProperty -Path $path -Name "OEMCP" -Type String -Value "65001"
 Set-ItemProperty -Path $path -Name "MACCP" -Type String -Value "65001"
 
 Write-Host "Enable long path support"
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Type DWord -Value 1 -Force
+Set-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Type DWord -Value 1 -Force
 
 ################################################################################
 # User-level settings
@@ -127,21 +127,21 @@ Write-Host "Setup environment"
 PrefixPath "PATH" "G:\My Drive\hal\bin" "User"
 
 Write-Host "Enabling short keyboard delay..."
-New-ItemProperty "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0 -Force
+New-ItemProperty "Registry::HKEY_CURRENT_USER\Control Panel\Keyboard" -Name "KeyboardDelay" -Type DWord -Value 0 -Force
 
 Write-Host "Setting key rate via filter keys..."
 SetKeyRate
 
 Write-Host "Disabling Sticky keys prompt..."
-Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
 
 Write-Host "Disable Shake"
-$path = "HKCU:\Software\Policies\Microsoft\Windows\Explorer"
+$path = "Registry::HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer"
 EnsureKey($path)
 Set-ItemProperty -Path $path -Name "NoWindowMinimizingShortcuts" -Type DWord -Value 1
 
 Write-Host "Explorer Settings"
-$path = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$path = "Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 Set-ItemProperty -Path $path -Name "DontPrettyPath" -Type DWord -Value 0
 Set-ItemProperty -Path $path -Name "Hidden" -Type DWord -Value 1
 Set-ItemProperty -Path $path -Name "HideFileExt" -Type DWord -Value 0
@@ -171,42 +171,55 @@ $RegData = $RegData -Replace '"GroupBy"="System.DateModified"', '"GroupBy"=""'
 $RegData | Out-File $TempRegFile
 & $RegExe Import $TempRegFile
 Remove-Item $TempRegFile
-Remove-Item -Force -Recurse -Path 'HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags'
-Remove-Item -Force -Recurse -Path 'HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CURRENT_USER\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\Shell\BagMRU'
 
 Write-Host "Disabling advertisements"
 # Sync provider notifications in File Explorer
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowSyncProviderNotifications" -Type DWord -Value 0
 # Get fun facts, tips, tricks, and more on your lock screen
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenOverlayEnabled" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenOverlayEnabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
 # Show suggested content in Settings app
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353694Enabled" -Type DWord -Value 0
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353696Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338393Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353694Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353696Enabled" -Type DWord -Value 0
 # Get tips and suggestions when using Windows
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
 # Suggest ways to get the most out of Windows and finish setting up this device
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -Type DWord -Value 0
 # Show me the Windows welcome experience after updates and occasionally when I sign in to highlight what's new and suggested
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-310093Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-310093Enabled" -Type DWord -Value 0
 # Let apps show me personalized ads by using my advertising ID
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Name "Enabled" -Type DWord -Value 0
 # Tailored experiences
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" -Name "TailoredExperiencesWithDiagnosticDataEnabled" -Type DWord -Value 0
 # "Show recommendations for tips, shortcuts, new apps, and more" on Start
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_IrisRecommendations" -Type DWord -Value 0
+Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Start_IrisRecommendations" -Type DWord -Value 0
+
+Write-Host "Disabling Explorer compressed folder display"
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\CompressedFolder\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.7z\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.bz2\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.gz\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.rar\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.tar\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.tbz2\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.tgz\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.xz\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_CLASSES_ROOT\SystemFileAssociations\.zip\CLSID'
+Remove-Item -Force -Recurse -Path 'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Classes\ArchiveFolder'
 
 Write-Host "Enabling fast menu fly-outs..."
-New-ItemProperty "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
+New-ItemProperty "Registry::HKEY_CURRENT_USER\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value 0 -Force
 
 Write-Host "Sublime right-click menu"
-$path = "HKCU:\Software\Classes\*\shell\Open with Sublime Text\command"
+$path = "Registry::HKEY_CURRENT_USER\Software\Classes\*\shell\Open with Sublime Text\command"
 EnsureKey($path)
 Set-Item -Path $path -Value 'C:\Program Files\Sublime Text\sublime_text.exe "%1"'
 
 Write-Host "Enable old-style context menus"
-$path = "HKCU:\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
+$path = "Registry::HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32"
 EnsureKey($path)
 Set-Item -Path $path -Value ""
 
