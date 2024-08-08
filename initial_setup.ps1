@@ -223,6 +223,12 @@ $path = "Registry::HKEY_CURRENT_USER\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-
 EnsureKey($path)
 Set-Item -Path $path -Value ""
 
+Write-Host "TortoiseGit settings"
+$path = "HKEY_CURRENT_USER\Software\TortoiseGit"
+EnsureKey($path)
+Set-ItemProperty -Path $path -Name "Diff" -Type String -Value "C:\Program Files\Araxis\Araxis Merge\compare.exe /wait /title1:%bname /title2:%yname %base %mine"
+Set-ItemProperty -Path $path -Name "Merge" -Type String -Value "C:\Program Files\Araxis\Araxis Merge\compare.exe /wait /3 /title1:%tname /title2:%bname /title3:%yname %theirs %base %mine %merged /a2"
+
 Write-Host "Photoshop CS6 overscroll panning"
 $path = "HKEY_CURRENT_USER\Software\Adobe\Photoshop\60.0"
 EnsureKey($path)
